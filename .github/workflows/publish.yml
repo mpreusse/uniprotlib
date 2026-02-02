@@ -16,7 +16,7 @@ jobs:
       - uses: astral-sh/setup-uv@v4
       - run: uv python install ${{ matrix.python-version }}
       - run: uv sync --python ${{ matrix.python-version }}
-      - run: uv run pytest tests/ -v
+      - run: uv run python -m pytest tests/ -v
 
   publish:
     needs: test
