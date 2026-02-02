@@ -1,0 +1,28 @@
+site_name: uniprotlib
+site_description: Python library for parsing UniProt XML and ID mapping data
+repo_url: https://github.com/mpreusse/uniprotlib
+
+theme:
+  name: material
+  features:
+    - navigation.sections
+
+markdown_extensions:
+  - pymdownx.highlight
+  - pymdownx.superfences
+
+plugins:
+  - mkdocstrings:
+      handlers:
+        python:
+          options:
+            show_source: false
+            show_root_heading: true
+            members_order: source
+
+nav:
+  - Home: index.md
+  - Usage:
+      - UniProt XML: xml.md
+      - ID Mapping: idmapping.md
+  - API Reference: api.md

@@ -1,0 +1,96 @@
+# uniprotlib
+
+> Python library for parsing UniProt XML files and ID mapping data. Streaming parsers with bounded memory for files of any size.
+
+## Installation
+
+```
+pip install uniprotlib
+```
+
+## Parsers
+
+### parse_xml(*paths: str | Path) -> Iterator[UniProtEntry]
+
+Stream-parse one or more UniProt XML files. Auto-detects gzip from `.gz` extension. Handles both `http://` and `https://` namespace variants.
+
+```python
+from uniprotlib import parse_xml
+
+for entry in parse_xml("uniprot_sprot.xml.gz"):
+    print(entry.primary_accession, entry.protein_name)
+    print(entry.organism.scientific_name, entry.organism.tax_id)
+    if entry.gene:
+        print(entry.gene.primary)
+```
+
+### parse_idmapping(*paths: str | Path, id_type: str | None = None) -> Iterator[IdMapping]
+
+Stream-parse UniProt idmapping.dat files (tab-separated: accession, id_type, id). Use `id_type` to filter to a single database.
+
+```python
+from uniprotlib import parse_idmapping
+
+# all mappings
+for m in parse_idmapping("idmapping.dat.gz"):
+    print(m.accession, m.id_type, m.id)
+
+# only UniProt -> NCBI Gene
+for m in parse_idmapping("idmapping.dat.gz", id_type="GeneID"):
+    print(m.accession, m.id)
+```
+
+## Models
+
+All models are `@dataclass(slots=True)`.
+
+### UniProtEntry
+
+- `primary_accession: str` — e.g. "Q9Y261"
+- `accessions: list[str]` — primary + secondary accessions
+- `entry_name: str` — e.g. "FOXA2_HUMAN"
+- `dataset: str` — "Swiss-Prot" or "TrEMBL"
+- `protein_name: str | None` — recommended full name
+- `gene: Gene | None` — None if no gene annotation
+- `organism: Organism`
+- `sequence: Sequence`
+- `keywords: list[str]`
+- `db_references: list[DbReference]`
+
+### Gene
+
+- `primary: str | None` — e.g. "FOXA2"
+- `synonyms: list[str]` — e.g. ["HNF3B", "TCF3B"]
+- `ordered_locus_names: list[str]`
+- `orf_names: list[str]`
+
+### Organism
+
+- `scientific_name: str | None` — e.g. "Homo sapiens"
+- `common_name: str | None` — e.g. "Human"
+- `tax_id: str | None` — NCBI Taxonomy ID, e.g. "9606"
+- `lineage: list[str]` — e.g. ["Eukaryota", ..., "Homo"]
+
+### Sequence
+
+- `value: str` — amino acid string, no whitespace
+- `length: int`
+- `mass: int` — molecular mass in Daltons
+- `checksum: str` — CRC64
+
+### DbReference
+
+- `type: str` — database name, e.g. "PDB", "RefSeq"
+- `id: str` — identifier in that database
+- `molecule: str | None` — isoform identifier
+- `properties: dict[str, str]` — additional key-value pairs
+
+### IdMapping
+
+- `accession: str` — UniProtKB accession
+- `id_type: str` — database name, e.g. "GeneID", "RefSeq"
+- `id: str` — identifier in that database
+
+## Common id_type values for parse_idmapping
+
+GeneID, RefSeq, RefSeq_NT, EMBL, EMBL-CDS, PDB, GI, UniRef100, UniRef90, UniRef50, KEGG, NCBI_TaxID

@@ -332,3 +332,5 @@ pyrightconfig.json
 
 # Claude Code
 CLAUDE.md
+# mkdocs build output
+site/
