@@ -1,0 +1,15 @@
+[project]
+name = "uniprot-tools"
+version = "0.1.0"
+description = "Python library for parsing UniProt XML data"
+license = "MIT"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "lxml>=6.0.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=9.0.2",
+]
