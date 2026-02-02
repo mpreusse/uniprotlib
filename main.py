@@ -1,5 +1,5 @@
 def main():
-    print("Hello from uniprot-tools!")
+    print("Hello from uniprotlib!")
 
 
 if __name__ == "__main__":

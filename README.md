@@ -1,4 +1,4 @@
-# uniprot-tools
+# uniprotlib
 
 > **Note:** This library was vibe coded with Claude. It works, it's tested, but review accordingly.
 
@@ -7,19 +7,19 @@ Python library for parsing UniProt XML files. Handles both single-entry download
 ## Installation
 
 ```bash
-pip install uniprot-tools
+pip install uniprotlib
 ```
 
 Or with [uv](https://docs.astral.sh/uv/):
 
 ```bash
-uv add uniprot-tools
+uv add uniprotlib
 ```
 
 ## Usage
 
 ```python
-from uniprot_tools import parse_xml
+from uniprotlib import parse_xml
 
 # single file
 for entry in parse_xml("Q9Y261.xml"):

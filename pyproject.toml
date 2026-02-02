@@ -1,5 +1,5 @@
 [project]
-name = "uniprot-tools"
+name = "uniprotlib"
 version = "0.1.0"
 description = "Python library for parsing UniProt XML data"
 license = "MIT"

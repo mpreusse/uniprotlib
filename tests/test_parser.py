@@ -1,6 +1,6 @@
 from pathlib import Path
 
-from uniprot_tools import parse_xml
+from uniprotlib import parse_xml
 
 
 def test_accessions(test_file: Path):
