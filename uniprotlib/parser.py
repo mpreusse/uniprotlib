@@ -183,8 +183,26 @@ def _parse_single_file(path: Path) -> Iterator[UniProtEntry]:
 def parse_xml(*paths: str | Path) -> Iterator[UniProtEntry]:
     """Stream-parse one or more UniProt XML files, yielding UniProtEntry objects.
 
-    Accepts plain XML or gzip-compressed files (auto-detected from .gz extension).
-    Files are processed sequentially. Memory stays bounded regardless of file size.
+    Accepts plain XML or gzip-compressed files (auto-detected from ``.gz``
+    extension). Handles both namespace variants (``http://`` for single-entry
+    web downloads, ``https://`` for bulk FTP dumps). Files are processed
+    sequentially. Memory stays bounded regardless of file size.
+
+    Args:
+        *paths: One or more file paths (str or Path) to UniProt XML files.
+
+    Yields:
+        UniProtEntry for each ``<entry>`` element in the XML.
+
+    Raises:
+        ValueError: If no paths are provided.
+
+    Example::
+
+        from uniprotlib import parse_xml
+
+        for entry in parse_xml("uniprot_sprot.xml.gz"):
+            print(entry.primary_accession, entry.organism.scientific_name)
     """
     if not paths:
         raise ValueError("At least one path is required")

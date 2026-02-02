@@ -29,10 +29,30 @@ def _parse_single_file(
 def parse_idmapping(
     *paths: str | Path, id_type: str | None = None,
 ) -> Iterator[IdMapping]:
-    """Stream-parse one or more UniProt idmapping.dat files, yielding IdMapping objects.
+    """Stream-parse one or more UniProt idmapping.dat files.
 
-    Accepts plain text or gzip-compressed files (auto-detected from .gz extension).
-    Optionally filter to a single database type with id_type.
+    Yields one IdMapping per line (one accession–database–id triple).
+    Accepts plain text or gzip-compressed files (auto-detected from ``.gz``
+    extension).
+
+    Args:
+        *paths: One or more file paths (str or Path) to idmapping.dat files.
+        id_type: If set, only yield rows matching this database type,
+            e.g. ``"GeneID"`` or ``"RefSeq"``. Rows with other types are
+            skipped.
+
+    Yields:
+        IdMapping for each (matching) line in the file.
+
+    Raises:
+        ValueError: If no paths are provided.
+
+    Example::
+
+        from uniprotlib import parse_idmapping
+
+        for m in parse_idmapping("idmapping.dat.gz", id_type="GeneID"):
+            print(m.accession, m.id)
     """
     if not paths:
         raise ValueError("At least one path is required")
