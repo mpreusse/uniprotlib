@@ -104,6 +104,13 @@ class UniProtEntry:
         sequence: Amino acid sequence with metadata.
         keywords: UniProt keywords, e.g. ``["Activator", "Nucleus"]``.
         db_references: Cross-references to external databases.
+        protein_existence: Protein existence evidence level, e.g.
+            ``"evidence at protein level"``. Possible values:
+            ``"evidence at protein level"``,
+            ``"evidence at transcript level"``,
+            ``"inferred from homology"``,
+            ``"predicted"``,
+            ``"uncertain"``.
     """
 
     primary_accession: str
@@ -116,3 +123,4 @@ class UniProtEntry:
     sequence: Sequence
     keywords: list[str]
     db_references: list[DbReference]
+    protein_existence: str | None

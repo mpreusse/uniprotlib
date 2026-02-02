@@ -150,6 +150,9 @@ def _parse_entry(ns: str, entry: etree._Element) -> UniProtEntry:
         for kw in entry.findall(_tag(ns, "keyword"))
     ]
 
+    pe_elem = entry.find(_tag(ns, "proteinExistence"))
+    protein_existence = pe_elem.attrib.get("type") if pe_elem is not None else None
+
     return UniProtEntry(
         primary_accession=accessions[0] if accessions else "",
         accessions=accessions,
@@ -161,6 +164,7 @@ def _parse_entry(ns: str, entry: etree._Element) -> UniProtEntry:
         sequence=_parse_sequence(ns, entry),
         keywords=keywords,
         db_references=_parse_db_references(ns, entry),
+        protein_existence=protein_existence,
     )
 
 

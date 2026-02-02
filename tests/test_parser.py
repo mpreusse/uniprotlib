@@ -108,6 +108,13 @@ def test_db_references(test_file: Path):
     assert refseq[0].properties["nucleotide sequence ID"] == "NM_021784.5"
 
 
+def test_protein_existence(test_file: Path):
+    entries = list(parse_xml(test_file))
+    assert len(entries) == 1
+    entry = entries[0]
+    assert entry.protein_existence == "evidence at protein level"
+
+
 def test_multiple_files():
     files_dir = Path(__file__).parent / "files"
     entries = list(parse_xml(
