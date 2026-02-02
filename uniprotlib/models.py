@@ -34,6 +34,13 @@ class DbReference:
 
 
 @dataclass(slots=True)
+class IdMapping:
+    accession: str
+    id_type: str
+    id: str
+
+
+@dataclass(slots=True)
 class UniProtEntry:
     primary_accession: str
     accessions: list[str]
