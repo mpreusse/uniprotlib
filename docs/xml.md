@@ -62,6 +62,9 @@ entry.sequence.mass      # 48306
 # keywords
 entry.keywords  # ["Activator", "Nucleus", ...]
 
+# protein existence evidence level
+entry.protein_existence  # "evidence at protein level"
+
 # database cross-references
 for ref in entry.db_references:
     print(ref.type, ref.id)  # "PDB", "7YZE"

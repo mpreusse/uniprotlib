@@ -56,6 +56,7 @@ All models are `@dataclass(slots=True)`.
 - `sequence: Sequence`
 - `keywords: list[str]`
 - `db_references: list[DbReference]`
+- `protein_existence: str | None` — e.g. "evidence at protein level", "inferred from homology"
 
 ### Gene
 
